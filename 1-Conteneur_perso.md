@@ -7,6 +7,7 @@ Les images **Jupyter Docker Stacks** incluent différentes configurations. L'ima
    docker pull jupyter/pyspark-notebook
    ```
 
+
 2. **Vérifiez que l’image est bien téléchargée :**
    Vous pouvez vérifier avec :
    ```bash
@@ -50,38 +51,26 @@ Puisque `jupyter/pyspark-notebook` ne contient pas PostgreSQL, nous allons crée
    ```
    Cette commande crée une nouvelle image Docker appelée `my-jupyter-pyspark`
 
-### Étape 3 : Exécuter votre nouveau conteneur (optionel juste pour test)
+### Étape 3 : Exécuter votre nouveau conteneur (optionel juste pour test, aller au fichier [2-Config_cluster.md](./2-Config_cluster.md))
 Vous pouvez maintenant exécuter votre propre conteneur Docker, qui inclut Jupyter Notebook et Spark
 1. **Démarrer le conteneur :**
    Lancez votre conteneur avec cette commande :
-   ```bash
-   docker run -p 8888:8888 -p 5432:5432 my-jupyter-pyspark-postgres
-   ```
+      ```bash
+      docker run -p 8888:8888 -p 8887:8080 -p 4040:4040 my-jupyter-pyspark-postgres
+      ```
    - **Port 8888** est pour accéder à Jupyter Notebook dans le navigateur.
-   - **Port 5432** est pour accéder à PostgreSQL.
+   - **Port 8887** est pour accéder à Spark dans le navigateur.
    
    **NB :** il est préférable de l'éxécuter avec un paramètre --name
-   ```bash
-   docker run --name nom-au-choix -p 8888:8888 -p 5432:5432 my-jupyter-pyspark-postgres
-   ```
-   Ensuite, au lieu de recréer un nouveau conteneur, redémarrez-le simplement avec :
-   ```bash
-   docker start -ai nom-au-choix
-   ```
-
-2. **Ajouter un port pour Spark (si nécessaire)**
-
-   Si vous voulez utiliser également **Spark** dans votre configuration et que vous souhaitez activer son interface web ou ses services, il peut être utile d'exposer certains ports supplémentaires, par exemple :
-
-   - **`-p 4040:4040`**  
-  Ce port est utilisé par **Spark** pour son **UI (User Interface)** des tâches. Il permet de surveiller les jobs Spark en cours d'exécution, les stages, les tasks, etc.
-
       ```bash
-      docker run --name nom-au-choix -p 8888:8888 -p 5432:5432 -p 4040:4040 my-jupyter-pyspark-postgres
+      docker run --name nom-au-choix -p 8888:8888 -p 8887:8080 my-jupyter-pyspark-postgres
+      ```
+   Ensuite, au lieu de recréer un nouveau conteneur, redémarrez-le simplement avec :
+      ```bash
+      docker start nom-au-choix
       ```
   
-
-3. **Accéder à Jupyter Notebook :**
+2. **Accéder à Jupyter Notebook :**
    - Dans le terminal, vous verrez un lien ressemblant à `http://127.0.0.1:8888/?token=...`
    - Ouvrez ce lien dans votre navigateur pour accéder à Jupyter Notebook.
 

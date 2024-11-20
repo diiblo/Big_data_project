@@ -28,6 +28,8 @@ Exécutez la commande suivante pour télécharger et lancer la base de données 
 docker run -itd --net=pyspark-cluster -p 5432:5432 --name pg-ds-dellstore aa8y/postgres-dataset:dellstore
 ```
 
+**NB :**si le port est déjà utilisé, cf : [PB_port_utilise.md](./PB_port_utilise.md)
+
 #### A. Importer les données dans PostgreSQL** (via `psql`) :
 
     Pour accéder à la base de données, exécutez :
@@ -65,6 +67,7 @@ docker run -itd --net=pyspark-cluster -p 5432:5432 --name pg-ds-dellstore aa8y/p
     -- Vérifier le contenu
     SELECT * FROM customer_orders LIMIT 5;
     ```
+    
 ---
 
  
@@ -158,3 +161,13 @@ docker exec -it pg-ds-dellstore psql -d dellstore
 SELECT * FROM high_income_customers LIMIT 5;
 SELECT * FROM avg_total_by_country LIMIT 5;
 ```
+
+### **6. Connexion de Power BI à PostgreSQL**
+
+1. Lancez Power BI Desktop
+2. Cliquez sur "Obtenir des données" et sélectionnez "Base de données PostgreSQL"
+3. Configurez la connexion :
+   - Serveur : localhost
+   - Base de données : dellstore
+   - Mode de connectivité : Importer
+4. Sélectionnez les tables `high_income_customers` `avg_total_by_country`

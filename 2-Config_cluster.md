@@ -8,8 +8,7 @@ Créez un réseau Docker pour permettre aux conteneurs de communiquer entre eux.
 ```bash
 docker network create --driver=bridge pyspark-cluster
 ```
-Si le Network déjà existant cf fin du document commande utilses pour sa suppression
-
+Si le Network déjà existant cf [PB_Network_Container.md](./PB_Network_Container.md)
 
 ---
 
@@ -34,9 +33,9 @@ docker run -itd --net=pyspark-cluster -p 8888:8888 -p 8887:8080 -p 4040:4040 --n
 
  En cas de soucis de port veuillez changer le ou les ports exposés de Docker concernés : `'port-concerné':8080`
  
- Si le container existe déjà cf fin du document commandes utilses pour sa suppression ou bien redémarrez-le simplement avec :
+ Si le container existe déjà cf [PB_Network_Container.md](./PB_Network_Container.md) pour sa suppression ou bien redémarrez-le simplement avec :
    ```bash
-   docker start -itd nom-du-conteneur
+   docker start nom-du-conteneur
    ```
 
 
@@ -125,14 +124,4 @@ tail -f /usr/local/spark/logs/spark--org.apache.spark.deploy.master.Master-1-pys
 - Vérification des conteneurs actifs :
 ```
 docker ps
-```
-
-- Suppression du network :
-```
-docker network rm nom-du-network
-```
-
-- Suppression du container :
-```
-docker rm nom-du-conteneur
 ```
