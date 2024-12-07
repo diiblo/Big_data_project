@@ -1,62 +1,6 @@
-Installation et Configuration des Cluster
+# Configuration des machines (topologie maître-esclave)...
 
----
-
-### Étape 1 : Créer un réseau Docker
-Créez un réseau Docker pour permettre aux conteneurs de communiquer entre eux.
-
-```bash
-docker network create --driver=bridge pyspark-cluster
-```
-Si le Network déjà existant cf [PB_Network_Container.md](./PB_Network_Container.md)
-
----
-
-### Étape 2 : Construire une nouvelle image à partir de votre Dockerfile
-Assurez-vous que votre Dockerfile est prêt dans un dossier. Construisez l'image Docker pour intégrer des outils "utiles" (openjdk-11-jdk net-tools curl).
-
-```bash
-docker build -t my-jupyter-pyspark .
-```
-
----
-
-### Étape 3 : Lancer le conteneur maître
-Lancez un conteneur qui jouera le rôle de maître.
-
-```bash
-docker run -itd --net=pyspark-cluster -p 8888:8888 -p 8887:8080 -p 4040:4040 --name pyspark-master --hostname pyspark-master my-jupyter-pyspark
-```
-
-- **Port 8888** est pour accéder à Jupyter Notebook dans le navigateur.
-- **Port 8887** est pour accéder à Spark dans le navigateur.L.
-
- En cas de soucis de port veuillez changer le ou les ports exposés de Docker concernés : `'port-concerné':8080`
- 
- Si le container existe déjà cf [PB_Network_Container.md](./PB_Network_Container.md) pour sa suppression ou bien redémarrez-le simplement avec :
-   ```bash
-   docker start nom-du-conteneur
-   ```
-
-
----
-
-### Étape 4 : Lancer les conteneurs esclaves
-Lancez deux conteneurs esclaves, en les connectant au même réseau.
-
-#### Esclave 1
-```bash
-docker run -itd --net=pyspark-cluster --name pyspark-worker1 --hostname pyspark-worker1 my-jupyter-pyspark
-```
-
-#### Esclave 2
-```bash
-docker run -itd --net=pyspark-cluster --name pyspark-worker2 --hostname pyspark-worker2 my-jupyter-pyspark
-```
-
----
-
-### Étape 5 : Configurer Spark pour le mode cluster
+### Étape 1 : Configurer Spark pour le mode cluster
 Dans chaque conteneur (maître et esclaves), configurez Spark pour qu'il puisse fonctionner en cluster.
 
 1. **Accédez au conteneur maître** :
@@ -103,7 +47,7 @@ Dans chaque conteneur (maître et esclaves), configurez Spark pour qu'il puisse 
 
 ---
 
-### Étape 6 : Vérification
+### Étape 5 : Vérification
 - Accédez à l'interface web du maître pour vérifier les nœuds connectés :
   - [http://localhost:8887](http://localhost:8887)
 
@@ -114,7 +58,7 @@ Dans chaque conteneur (maître et esclaves), configurez Spark pour qu'il puisse 
 ### Résultat attendu
 Un cluster maître-esclave fonctionnel, avec le maître exécutant les tâches PySpark et deux esclaves participant au traitement distribué. PostgreSQL est également prêt à être utilisé pour stocker ou analyser des données.
 
-### Commandes utililes
+### Commandes utiles
 
 - Voir si Spark à démarré :
 ```

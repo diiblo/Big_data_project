@@ -1,3 +1,6 @@
+# Créer une image docker...
+
+---
 
 ### Étape 1 : Télécharger l'image Jupyter avec Spark
 Les images **Jupyter Docker Stacks** incluent différentes configurations. L'image `jupyter/pyspark-notebook` est celle qui contient Jupyter et Spark.
@@ -17,10 +20,12 @@ Les images **Jupyter Docker Stacks** incluent différentes configurations. L'ima
    Vous devriez voir `jupyter/pyspark-notebook` dans la liste.
 
 ### Étape 2 : Ajouter PostgreSQL à l'image
-Puisque `jupyter/pyspark-notebook` ne contient pas PostgreSQL, nous allons créer un Dockerfile personnalisé pour ajouter PostgreSQL à cette image.
+Puisque `jupyter/pyspark-notebook` ne contient pas tout nos outils, nous allons les ajouters, par un `Dockerfile`.
+
+**NB :** Certains, ne sont pas importants, mais peuvent servir pour d'autres projets
 
 1. **Créer un Dockerfile personnalisé :**
-   Dans le même répertoire, créez un fichier appelé `Dockerfile` (sans extension) et ajoutez les lignes suivantes :
+   Dans répertoire de votre choix, créez un fichier appelé `Dockerfile` (sans extension) et ajoutez les lignes suivantes :
    ```dockerfile
    # Utiliser l'image de base Jupyter avec Spark
    FROM jupyter/pyspark-notebook
@@ -45,3 +50,9 @@ Puisque `jupyter/pyspark-notebook` ne contient pas PostgreSQL, nous allons crée
    CMD ["start-notebook.sh"]
    ```
 
+2. **Construire votre nouvelle image Docker :**
+   Dans le terminal, exécutez cette commande pour construire l’image Docker personnalisée (assurez-vous d’être dans le même dossier que le `Dockerfile`) :
+   ```bash
+   docker build -t my-jupyter-pyspark .
+   ```
+   Cette commande crée une nouvelle image Docker appelée `my-jupyter-pyspark`
