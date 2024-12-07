@@ -1,3 +1,4 @@
+
 ### Étape 1 : Télécharger l'image Jupyter avec Spark
 Les images **Jupyter Docker Stacks** incluent différentes configurations. L'image `jupyter/pyspark-notebook` est celle qui contient Jupyter et Spark.
 
@@ -43,34 +44,4 @@ Puisque `jupyter/pyspark-notebook` ne contient pas PostgreSQL, nous allons crée
    USER $NB_USER
    CMD ["start-notebook.sh"]
    ```
-
-2. **Construire votre nouvelle image Docker :**
-   Dans le terminal, exécutez cette commande pour construire l’image Docker personnalisée (assurez-vous d’être dans le même dossier que le `Dockerfile`) :
-   ```bash
-   docker build -t my-jupyter-pyspark .
-   ```
-   Cette commande crée une nouvelle image Docker appelée `my-jupyter-pyspark`
-
-### Étape 3 : Exécuter votre nouveau conteneur (optionel juste pour test, aller au fichier [2-Config_cluster.md](./2-Config_cluster.md))
-Vous pouvez maintenant exécuter votre propre conteneur Docker, qui inclut Jupyter Notebook et Spark
-1. **Démarrer le conteneur :**
-   Lancez votre conteneur avec cette commande :
-      ```bash
-      docker run -p 8888:8888 -p 8887:8080 -p 4040:4040 my-jupyter-pyspark-postgres
-      ```
-   - **Port 8888** est pour accéder à Jupyter Notebook dans le navigateur.
-   - **Port 8887** est pour accéder à Spark dans le navigateur.
-   
-   **NB :** il est préférable de l'éxécuter avec un paramètre --name
-      ```bash
-      docker run --name nom-au-choix -p 8888:8888 -p 8887:8080 my-jupyter-pyspark-postgres
-      ```
-   Ensuite, au lieu de recréer un nouveau conteneur, redémarrez-le simplement avec :
-      ```bash
-      docker start nom-au-choix
-      ```
-  
-2. **Accéder à Jupyter Notebook :**
-   - Dans le terminal, vous verrez un lien ressemblant à `http://127.0.0.1:8888/?token=...`
-   - Ouvrez ce lien dans votre navigateur pour accéder à Jupyter Notebook.
 
